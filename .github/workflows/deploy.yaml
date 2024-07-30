@@ -42,7 +42,7 @@ jobs:
         run: |
           databricks bundle deploy -p DEFAULT
 
-      - name: Run asset bundles
+      - name: Run asset bundles python pipeline
         working-directory: default_python
         env:
           DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}

@@ -32,4 +32,8 @@ jobs:
 
       - name: Deploy asset bundles
         working-directory: default_python
-        run: databricks bundle deploy -p production
+        env:
+          DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
+          DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
+        run: |
+          databricks bundle deploy -p production

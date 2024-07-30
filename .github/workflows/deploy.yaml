@@ -31,9 +31,9 @@ jobs:
           echo "token = ${{ secrets.DATABRICKS_TOKEN }}" >> ~/.databrickscfg
 
       - name: Deploy asset bundles
-        working-directory: default_python
         env:
           DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
           DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
         run: |
+          cd default_python
           databricks bundle deploy -p production

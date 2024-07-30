@@ -1,18 +1,17 @@
 name: Deploy Asset Bundles
+
 on:
   push:
     branches:
       - main
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-
-      # Download the Databricks CLI.
-      # See https://github.com/databricks/setup-cli
-      - uses: databricks/setup-cli@main
 
       - name: Set up Python
         uses: actions/setup-python@v4
@@ -24,13 +23,13 @@ jobs:
           python -m pip install --upgrade pip
           pip install setuptools
 
-      - name: Change directory to default_python
-        run: cd default_python
+      - name: Create .databrickscfg file
+        run: |
+          mkdir -p ~/.databricks
+          echo "[DEFAULT]" > ~/.databrickscfg
+          echo "host = ${{ secrets.DATABRICKS_HOST }}" >> ~/.databrickscfg
+          echo "token = ${{ secrets.DATABRICKS_TOKEN }}" >> ~/.databrickscfg
 
       - name: Deploy asset bundles
-        env:
-          DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
-          DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
-        run: |
-          cd default_python
-          databricks bundle deploy -p production
+        working-directory: default_python
+        run: databricks bundle deploy -p production

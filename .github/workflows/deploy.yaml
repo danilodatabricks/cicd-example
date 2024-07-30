@@ -40,4 +40,4 @@ jobs:
           DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
         run: |
           cd default_python
-          databricks bundle deploy -p production
+          databricks bundle deploy -p DEFAULT
